@@ -9,14 +9,15 @@ let clickedCube,
   highScore = 0,
   activeCube,
   didUserClicked,
-  cubeInterval;
+  cubeInterval,
+  startClicks = 0;
 
 // check which cube click and if it's correct cube (if not, stops the interval);
 const checkCube = (evt, Interval) => {
   clickedCube = Number(evt.target.textContent);
   if (clickedCube !== activeCube) {
     lostGame(Interval);
-  } else {
+  } else if (!didUserClicked) {
     didUserClicked = true;
     currentScore++;
     displayedScore.textContent = `ניקוד: ${currentScore}`;
@@ -33,26 +34,33 @@ const lostGame = (Interval) => {
   displayedScore.textContent = `ניקוד: ${currentScore}`;
   document.getElementById(`cube--${activeCube}`).classList.remove(`active`);
   activeCube = 0;
-  startGame.removeEventListener(`click`);
+  didUserClicked = false;
+  startClicks = 0;
+  // startGame.removeEventListener(`click`, gamePlay);
 };
 
-const check = startGame.addEventListener(`click`, () => {
-  const Interval = setInterval(() => {
-    //generate a random numb and display the cube as active
-    activeCube = Math.trunc(Math.random() * 9 + 1);
-    didUserClicked = false;
-    document.getElementById(`cube--${activeCube}`).classList.add(`active`);
-    //waits 1 second then remove the active cube and checks if a user clicked
-    setTimeout(() => {
-      document.getElementById(`cube--${activeCube}`).classList.remove(`active`);
-      if (!didUserClicked) {
-        lostGame(Interval);
-      }
-    }, 2000);
-  }, 2200);
-
-  // on click - calls the checkCube to check if it was correct cube - if not - stops the game
-  cubeList.addEventListener(`click`, (eventClick) => {
-    checkCube(eventClick, Interval);
-  });
-});
+const gamePlay = () => {
+  startClicks++;
+  if (startClicks <= 1) {
+    const Interval = setInterval(() => {
+      //generate a random numb and display the cube as active
+      activeCube = Math.trunc(Math.random() * 9 + 1);
+      didUserClicked = false;
+      document.getElementById(`cube--${activeCube}`).classList.add(`active`);
+      //waits 1 second then remove the active cube and checks if a user clicked
+      setTimeout(() => {
+        document
+          .getElementById(`cube--${activeCube}`)
+          .classList.remove(`active`);
+        if (!didUserClicked) {
+          lostGame(Interval);
+        }
+      }, 2000);
+    }, 2200);
+    // on click - calls the checkCube to check if it was correct cube - if not - stops the game
+    cubeList.addEventListener(`click`, (eventClick) => {
+      checkCube(eventClick, Interval);
+    });
+  }
+};
+const check = startGame.addEventListener(`click`, gamePlay);
