@@ -104,21 +104,12 @@ const switchDifficulty = (difficultyMode) => {
   switch (difficultyMode.target.id) {
     case `easy`:
       speedOfCubes = 1150;
-      difficultyButtons[0].classList.remove(`secondary-btn`);
-      difficultyButtons[1].classList.add(`secondary-btn`);
-      difficultyButtons[2].classList.add(`secondary-btn`);
       break;
     case `medium`:
       speedOfCubes = 950;
-      difficultyButtons[1].classList.remove(`secondary-btn`);
-      difficultyButtons[0].classList.add(`secondary-btn`);
-      difficultyButtons[2].classList.add(`secondary-btn`);
       break;
     case `extreme`:
       speedOfCubes = 750;
-      difficultyButtons[2].classList.remove(`secondary-btn`);
-      difficultyButtons[1].classList.add(`secondary-btn`);
-      difficultyButtons[0].classList.add(`secondary-btn`);
       break;
   }
 };
