@@ -14,7 +14,23 @@
   </head>
   <body>
     <main>
-      <h1 class="score">ניקוד: 0</h1>
+      <div class="header">
+        <div class="difficulty-buttons">
+          <button class="btn primary-btn secondary-btn" id="extreme">
+            אקסטרים
+          </button>
+          <button class="btn primary-btn secondary-btn" id="medium">
+            בינוני
+          </button>
+          <button class="btn primary-btn" id="easy">קל</button>
+        </div>
+        <h1 class="score">ניקוד: 0</h1>
+        <div class="box-size-buttons">
+          <button class="btn secondary-btn" id="5x5">5x5</button>
+          <button class="btn secondary-btn" id="4x4">4x4</button>
+          <button class="btn primary-btn" id="3x3">3x3</button>
+        </div>
+      </div>
       <ul class="cubes">
         <li class="cube" id="cube--1">1</li>
         <li class="cube" id="cube--2">2</li>
@@ -27,9 +43,9 @@
         <li class="cube" id="cube--9">9</li>
       </ul>
       <div class="buttons">
-        <button class="btn" id="start">התחל משחק</button>
+        <button class="btn primary-btn" id="start">התחל משחק</button>
         <h2 class="high-score">שיא - 0</h2>
-        <button class="btn" id="reset">איפוס משחק</button>
+        <button class="btn secondary-btn" id="reset">איפוס משחק</button>
       </div>
     </main>
     <script src="script.js"></script>
