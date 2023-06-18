@@ -11,9 +11,9 @@ const difficultyButtons = [
   document.getElementById(`extreme`),
 ];
 const boardSizeButtons = [
-  document.getElementById(`3x3`),
-  document.getElementById(`4x4`),
-  document.getElementById(`5x5`),
+  document.getElementById(`3`),
+  document.getElementById(`4`),
+  document.getElementById(`5`),
 ];
 
 let clickedCube,
@@ -25,73 +25,41 @@ let clickedCube,
   startClicks = 0,
   difficultyMode = `easy`,
   speedOfCubes = 2000,
-  numOfCubes = 9;
-displayedHighScore.textContent = `שיא: ${highScore}`;
+  defaultDifficultyButton = `easy`,
+  defaultBoardSizeButton = 3;
 
-for (let i = 1; i <= 9; i++) {
-  const tempCube = cubesUl.appendChild(document.createElement("li"));
-  tempCube.classList.add(`cube`);
-  tempCube.setAttribute(`id`, `cube--${i}`);
-  tempCube.textContent = String(i);
-}
+displayedHighScore.textContent = `שיא: ${highScore}`;
+window.onload = () => {
+  for (let i = 1; i <= 9; i++) {
+    const tempCube = cubesUl.appendChild(document.createElement("li"));
+    tempCube.classList.add(`cube`);
+    tempCube.setAttribute(`id`, `cube--${i}`);
+    tempCube.textContent = String(i);
+  }
+  document.getElementById(`3`).classList.add(`primary-btn`);
+  document.getElementById(`easy`).classList.add(`primary-btn`);
+};
 
 const switchBoardSize = (boardSize) => {
-  switch (boardSize.target.id) {
-    case `3x3`:
-      if (!cubesUl.classList.contains(`grid-3-cols`)) {
-        cubesUl.innerHTML = ``;
-        numOfCubes = 9;
-        cubesUl.classList.add(`grid-3-cols`);
-        cubesUl.classList.remove(`grid-5-cols`);
-        cubesUl.classList.remove(`grid-4-cols`);
-        for (let i = 1; i <= 9; i++) {
-          const tempCube = cubesUl.appendChild(document.createElement("li"));
-          tempCube.classList.add(`cube`);
-          tempCube.setAttribute(`id`, `cube--${i}`);
-          tempCube.textContent = String(i);
-        }
-        boardSizeButtons[0].classList.remove(`secondary-btn`);
-        boardSizeButtons[1].classList.add(`secondary-btn`);
-        boardSizeButtons[2].classList.add(`secondary-btn`);
-        break;
+  cubesUl.innerHTML = ``;
+  numOfCubes = Number(boardSize.target.id) ** 2;
+  cubesUl.setAttribute(`Class`, `cubes grid-${boardSize.target.id}-cols`);
+  for (let i = 1; i <= numOfCubes; i++) {
+    const tempCube = cubesUl.appendChild(document.createElement("li"));
+    tempCube.classList.add(`cube`);
+    tempCube.setAttribute(`id`, `cube--${i}`);
+    tempCube.textContent = String(i);
+  }
+  if (defaultBoardSizeButton != boardSize.target.id) {
+    document.getElementById(`3`).classList.remove(`primary-btn`);
+    for (let i = 0; i < boardSizeButtons.length; i++) {
+      if (boardSize.target.id === boardSizeButtons[i].id) {
+        boardSizeButtons[i].classList.add(`primary-btn`);
+      } else if (defaultBoardSizeButton === boardSizeButtons[i].id) {
+        boardSizeButtons[i].classList.remove(`primary-btn`);
       }
-      break;
-    case `4x4`:
-      if (!cubesUl.classList.contains(`grid-4-cols`)) {
-        cubesUl.innerHTML = ``;
-        numOfCubes = 16;
-        cubesUl.classList.remove(`grid-3-cols`);
-        cubesUl.classList.remove(`grid-5-cols`);
-        cubesUl.classList.add(`grid-4-cols`);
-        for (let i = 1; i <= 16; i++) {
-          const tempCube = cubesUl.appendChild(document.createElement("li"));
-          tempCube.classList.add(`cube`);
-          tempCube.setAttribute(`id`, `cube--${i}`);
-          tempCube.textContent = String(i);
-        }
-        boardSizeButtons[1].classList.remove(`secondary-btn`);
-        boardSizeButtons[0].classList.add(`secondary-btn`);
-        boardSizeButtons[2].classList.add(`secondary-btn`);
-        break;
-      }
-    case `5x5`:
-      if (!cubesUl.classList.contains(`grid-5-cols`)) {
-        cubesUl.innerHTML = ``;
-        numOfCubes = 25;
-        cubesUl.classList.remove(`grid-3-cols`);
-        cubesUl.classList.add(`grid-5-cols`);
-        cubesUl.classList.remove(`grid-4-cols`);
-        for (let i = 1; i <= 25; i++) {
-          const tempCube = cubesUl.appendChild(document.createElement("li"));
-          tempCube.classList.add(`cube`);
-          tempCube.setAttribute(`id`, `cube--${i}`);
-          tempCube.textContent = String(i);
-        }
-        boardSizeButtons[2].classList.remove(`secondary-btn`);
-        boardSizeButtons[1].classList.add(`secondary-btn`);
-        boardSizeButtons[0].classList.add(`secondary-btn`);
-        break;
-      }
+    }
+    defaultBoardSizeButton = boardSize.target.id;
   }
 };
 
@@ -122,21 +90,32 @@ const resetGame = () => {
 };
 
 const switchDifficulty = (difficultyMode) => {
+  if (defaultDifficultyButton != difficultyMode.target.id) {
+    document.getElementById(`easy`).classList.remove(`primary-btn`);
+    for (let i = 0; i < difficultyButtons.length; i++) {
+      if (difficultyMode.target.id === difficultyButtons[i].id) {
+        difficultyButtons[i].classList.add(`primary-btn`);
+      } else if (defaultDifficultyButton === difficultyButtons[i].id) {
+        difficultyButtons[i].classList.remove(`primary-btn`);
+      }
+    }
+    defaultDifficultyButton = difficultyMode.target.id;
+  }
   switch (difficultyMode.target.id) {
     case `easy`:
-      speedOfCubes = 1200;
+      speedOfCubes = 1150;
       difficultyButtons[0].classList.remove(`secondary-btn`);
       difficultyButtons[1].classList.add(`secondary-btn`);
       difficultyButtons[2].classList.add(`secondary-btn`);
       break;
     case `medium`:
-      speedOfCubes = 900;
+      speedOfCubes = 950;
       difficultyButtons[1].classList.remove(`secondary-btn`);
       difficultyButtons[0].classList.add(`secondary-btn`);
       difficultyButtons[2].classList.add(`secondary-btn`);
       break;
     case `extreme`:
-      speedOfCubes = 700;
+      speedOfCubes = 750;
       difficultyButtons[2].classList.remove(`secondary-btn`);
       difficultyButtons[1].classList.add(`secondary-btn`);
       difficultyButtons[0].classList.add(`secondary-btn`);
@@ -160,7 +139,7 @@ const gamePlay = () => {
         if (!didUserClicked) {
           init(Interval);
         }
-      }, speedOfCubes - 100);
+      }, speedOfCubes - 150);
     }, speedOfCubes);
     // on click - calls the checkCube to check if it was correct cube - if not - stops the game
     cubeList.addEventListener(`click`, (eventClick) => {
