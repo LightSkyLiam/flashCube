@@ -39,10 +39,11 @@ window.onload = () => {
   document.getElementById(`3`).classList.add(`primary-btn`);
   document.getElementById(`easy`).classList.add(`primary-btn`);
 };
-
+let numOfCubes = 9;
 const switchBoardSize = (boardSize) => {
   cubesUl.innerHTML = ``;
   numOfCubes = Number(boardSize.target.id) ** 2;
+  console.log(Number(boardSize.target.id) ** 2);
   cubesUl.setAttribute(`Class`, `cubes grid-${boardSize.target.id}-cols`);
   for (let i = 1; i <= numOfCubes; i++) {
     const tempCube = cubesUl.appendChild(document.createElement("li"));
@@ -119,8 +120,10 @@ const gamePlay = () => {
   if (startClicks <= 1) {
     const Interval = setInterval(() => {
       //generate a random numb and display the cube as active
+      console.log(numOfCubes);
       activeCube = Math.trunc(Math.random() * numOfCubes + 1);
       didUserClicked = false;
+      console.log(activeCube);
       document.getElementById(`cube--${activeCube}`).classList.add(`active`);
       //waits 1 second then remove the active cube and checks if a user clicked
       setTimeout(() => {
